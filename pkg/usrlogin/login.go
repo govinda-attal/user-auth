@@ -4,16 +4,19 @@ import (
 	"database/sql"
 
 	"github.com/govinda-attal/user-auth/pkg/core/status"
+	"github.com/govinda-attal/user-auth/provider"
 )
 
 // NewAuthenticateSrv ...
-func NewAuthenticateSrv(usrstore *sql.DB) Authenticater {
-	return &authenticateSrv{baseSrv{usrstore: usrstore}}
+func NewAuthenticateSrv() Authenticater {
+	usrStore := provider.GetSvc(provider.SvcUserStore).(*sql.DB)
+	return &authenticateSrv{baseSrv{usrstore: usrStore}}
 }
 
 // NewVerifySrv ...
-func NewVerifySrv(usrstore *sql.DB) Verifier {
-	return &verifySrv{baseSrv{usrstore: usrstore}}
+func NewVerifySrv() Verifier {
+	usrStore := provider.GetSvc(provider.SvcUserStore).(*sql.DB)
+	return &verifySrv{baseSrv{usrstore: usrStore}}
 }
 
 // AutheticateRq ...

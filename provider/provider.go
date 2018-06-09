@@ -10,6 +10,7 @@ const SvcUserStore = "usrstore"
 
 var svcMap = make(map[string]interface{})
 
+
 func Setup(connStr string) {
 	db, err := usrstore.InitStore(connStr)
 	if err != nil {
@@ -21,3 +22,4 @@ func Setup(connStr string) {
 func GetSvc(svcName string) interface{} {
 	return svcMap[svcName]
 }
+

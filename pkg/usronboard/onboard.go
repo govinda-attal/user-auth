@@ -4,22 +4,26 @@ import (
 	"database/sql"
 
 	"github.com/govinda-attal/user-auth/pkg/core/status"
+	"github.com/govinda-attal/user-auth/provider"
 )
 
 // NewRegistererSrv ...
-func NewRegistererSrv(usrstore *sql.DB) Registerer {
-	return &registereSrv{baseSrv{usrstore: usrstore}}
+func NewRegistererSrv() Registerer {
+	usrStore := provider.GetSvc(provider.SvcUserStore).(*sql.DB)
+	return &registereSrv{baseSrv{usrstore: usrStore}}
 }
 
 // NewConfirmerSrv ...
-func NewConfirmerSrv(usrstore *sql.DB) Confirmer {
-	return &confirmerSrv{baseSrv{usrstore: usrstore}}
+func NewConfirmerSrv() Confirmer {
+	usrStore := provider.GetSvc(provider.SvcUserStore).(*sql.DB)
+	return &confirmerSrv{baseSrv{usrstore: usrStore}}
 }
 
 // RegistrationRq ...
 type RegistrationRq struct {
 	UserName string `json:"username"`
 	Password string `json:"password"`
+	ConfirmPassword string `json:"confirmPassword"`
 	Email    string `json:"email,omitEmpty"`
 	Mobile   string `json:"mobile,omitEmpty"`
 }
