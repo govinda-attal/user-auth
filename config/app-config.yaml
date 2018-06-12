@@ -1,0 +1,9 @@
+version: 1.0
+
+services:
+  userstore:
+    host: localhost
+    port: 5432
+    username: postgres
+    password: postgres
+    dbname: blockchain

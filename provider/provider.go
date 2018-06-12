@@ -1,25 +1,35 @@
 package provider
 
 import (
+	"database/sql"
+	"fmt"
 	"log"
+
+	"github.com/spf13/viper"
 
 	"github.com/govinda-attal/user-auth/provider/usrstore"
 )
 
-const SvcUserStore = "usrstore"
+const SvcUserStore = "svc.usrstore"
 
-var svcMap = make(map[string]interface{})
-
-
-func Setup(connStr string) {
-	db, err := usrstore.InitStore(connStr)
+func Setup() {
+	db, err := usrstore.InitStore()
 	if err != nil {
 		log.Fatal(err)
 	}
-	svcMap["usrstore"] = db
+	viper.SetDefault(SvcUserStore, db)
 }
 
 func GetSvc(svcName string) interface{} {
-	return svcMap[svcName]
+	return viper.Get(SvcUserStore)
 }
 
+func Cleanup() {
+	db := viper.Get(SvcUserStore)
+	if db != nil {
+		err := db.(*sql.DB).Close()
+		if err != nil {
+			fmt.Println("Close on db connection failed!")
+		}
+	}
+}
