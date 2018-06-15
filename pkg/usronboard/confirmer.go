@@ -18,7 +18,6 @@ func NewConfirmerSrv() Confirmer {
 // ConfirmationRq ...
 type ConfirmationRq struct {
 	Token string `json:"token"`
-	Code  string `json:"code,omitEmpty"`
 }
 
 // ConfirmationRs ...
