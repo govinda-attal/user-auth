@@ -7,11 +7,15 @@ import (
 
 	"github.com/spf13/viper"
 
-	"github.com/govinda-attal/user-auth/provider/usrstore"
+	"github.com/govinda-attal/user-auth/internal/provider/usrstore"
 )
 
-const SvcUserStore = "svc.usrstore"
+const (
+	// SvcUserStore ...
+	SvcUserStore = "svc.usrstore"
+)
 
+// Setup ...
 func Setup() {
 	db, err := usrstore.InitStore()
 	if err != nil {
@@ -20,10 +24,12 @@ func Setup() {
 	viper.SetDefault(SvcUserStore, db)
 }
 
+// GetSvc ...
 func GetSvc(svcName string) interface{} {
 	return viper.Get(SvcUserStore)
 }
 
+// Cleanup ...
 func Cleanup() {
 	db := viper.Get(SvcUserStore)
 	if db != nil {

@@ -4,10 +4,12 @@ import (
 	"net/http"
 )
 
-func AuthenticateUser(w http.ResponseWriter, r *http.Request) {
-
+// AuthenticateUser ...
+func AuthenticateUser(w http.ResponseWriter, r *http.Request) error {
+	return nil
 }
 
-func VerifyUser(w http.ResponseWriter, r *http.Request) {
-
+// VerifyUser ...
+func VerifyUser(w http.ResponseWriter, r *http.Request) error {
+	return nil
 }

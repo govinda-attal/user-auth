@@ -7,3 +7,11 @@ services:
     username: postgres
     password: postgres
     dbname: blockchain
+
+config:
+  jwtSecret: helloworld
+  account:
+    confirmation:
+      expiryDuration: 24h 
+
+  
