@@ -1,4 +1,4 @@
-package usrtoken
+package handler
 
 import (
 	"context"
@@ -8,6 +8,7 @@ import (
 	"github.com/spf13/viper"
 
 	"github.com/govinda-attal/user-auth/internal/config"
+	"github.com/govinda-attal/user-auth/internal/usrtoken"
 	"github.com/govinda-attal/user-auth/pkg/core/status"
 )
 
@@ -21,12 +22,12 @@ const (
 // ValidateUserLogon ...
 func ValidateUserLogon(next http.HandlerFunc) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
-		bearerToken, err := GetBearerToken(req.Header.Get("Authorization"))
+		bearerToken, err := usrtoken.GetBearerToken(req.Header.Get("Authorization"))
 		if err != nil {
 			json.NewEncoder(w).Encode(err)
 			return
 		}
-		decodedToken, err := VerifyJwt(bearerToken, viper.GetString(config.JwtSecret))
+		decodedToken, err := usrtoken.VerifyJwt(bearerToken, viper.GetString(config.JwtSecret))
 		if err != nil {
 			json.NewEncoder(w).Encode(err)
 			return

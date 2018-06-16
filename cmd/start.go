@@ -26,7 +26,6 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/govinda-attal/user-auth/handler"
-	"github.com/govinda-attal/user-auth/handler/mw/usrtoken"
 	"github.com/govinda-attal/user-auth/internal/provider"
 )
 
@@ -50,7 +49,7 @@ func startServer(cmd *cobra.Command, args []string) {
 	s.HandleFunc("/confirm",
 		handler.ErrorHandler(handler.ConfirmUser)).Methods("POST")
 	s.HandleFunc("/info",
-		usrtoken.ValidateUserLogon(handler.ErrorHandler(handler.FetchUserInfo))).Methods("GET")
+		handler.ValidateUserLogon(handler.ErrorHandler(handler.FetchUserInfo))).Methods("GET")
 
 	srv := &http.Server{
 		Addr:         "0.0.0.0:8080",

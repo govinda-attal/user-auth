@@ -71,7 +71,7 @@ func (rSrv *registererSrv) addUserAccount(username, password, email string) (str
 		err := tx.QueryRow(
 			newAcctStmt,
 			username,
-			crypto.GenerateHash(password),
+			crypto.HashAndSalt(password),
 			email).Scan(&uid)
 		if err != nil {
 			return err

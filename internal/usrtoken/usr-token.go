@@ -7,6 +7,7 @@ import (
 
 	"github.com/govinda-attal/user-auth/pkg/core/status"
 )
+
 // GetBearerToken ...
 func GetBearerToken(header string) (string, error) {
 	if header == "" {

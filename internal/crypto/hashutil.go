@@ -19,3 +19,12 @@ func HashAndSalt(pwd string) string {
 	hash, _ := bcrypt.GenerateFromPassword([]byte(pwd), bcrypt.DefaultCost)
 	return string(hash)
 }
+
+// Compare Passwords
+func ComparePasswords(hwpd, pwd string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hwpd), []byte(pwd))
+	if err != nil {
+		return false
+	}
+	return true
+}
