@@ -2,7 +2,9 @@ package usrlogin
 
 import (
 	"database/sql"
+	"time"
 
+	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/spf13/viper"
 
 	"github.com/govinda-attal/user-auth/internal/config"
@@ -47,12 +49,18 @@ func (as *authenticateSrv) Authenticate(rq *AutheticateRq) (*AutheticateRs, erro
 		return nil, err
 	}
 
+	expireToken := time.Now().Add(time.Hour * 12).Unix()
+
 	claims := make(map[string]interface{})
 	claims["uid"] = uid
 	claims["username"] = rq.Username
 	claims["password"] = rq.Password
 	claims["email"] = email
 	claims["status"] = ustatus
+	claims["StandardClaims"] = jwt.StandardClaims{
+		ExpiresAt: expireToken,
+		Issuer:    "user-auth",
+	}
 	tokenString, err := usrtoken.SignJwt(claims, viper.GetString(config.JwtSecret))
 	if err != nil {
 		return nil, status.ErrInternal.WithMessage(err.Error())
